@@ -1,3 +1,5 @@
+from selenium.common import NoAlertPresentException
+
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
@@ -6,7 +8,10 @@ class ProductPage(BasePage):
     def add_product_to_basket(self):
         button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON)
         button.click()
-        self.solve_quiz_and_get_code()
+        try:
+            self.solve_quiz_and_get_code()
+        except NoAlertPresentException:
+            print("No alert presented")
 
     def product_should_be_in_basket(self):
         product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
