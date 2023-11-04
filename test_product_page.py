@@ -13,13 +13,13 @@ class TestLoginFromProductPage:
         page.open()
         page.should_be_login_link()
 
+    @pytest.mark.need_review
     def test_guest_can_go_to_login_page_from_product_page(self, browser):
         page = ProductPage(browser=browser, url=link)
         page.open()
         page.go_to_login_page()
 
 
-@pytest.mark.need_review
 class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -31,6 +31,7 @@ class TestUserAddToBasketFromProductPage:
         login_page.register_new_user(email=fake_person.email(), password=fake_person.password())
         page.should_be_authorized_user()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         page = ProductPage(browser=browser, url=link)
         page.open()
@@ -44,12 +45,12 @@ class TestUserAddToBasketFromProductPage:
         page.should_not_be_success_message()
 
 
-# @pytest.mark.need_review
 @pytest.mark.parametrize('link_end',
                          ["0", "1", "2", "3", "4", "5", "6",
                           pytest.param("7", marks=pytest.mark.xfail),
                           "8", "9"]
                          )
+@pytest.mark.need_review
 def test_guest_can_add_product_to_basket(browser, link_end):
     url_link = f"{link}?promo=offer{link_end}"
     page = ProductPage(browser=browser, url=url_link)
@@ -81,6 +82,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.should_not_be_success_message_disappear()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = ProductPage(browser=browser, url=link)
     page.open()
